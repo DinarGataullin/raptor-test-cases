@@ -1,0 +1,26 @@
+[
+	{
+		"name" : "SSLv2_Checker",
+		"cmd" : "/usr/bin/openssl s_client -connect #url#:443 -ssl2"
+	},
+	{
+		"name" : "TLSv1_Checker",
+		"cmd" : "/usr/bin/openssl s_client -connect #url#:443 -tls1"
+	},
+	{
+		"name" : "SSLv3_Checker",
+		"cmd" : "/usr/bin/openssl s_client -connect #url#:443 -ssl3"
+	},
+	{
+		"name" : "curl_GetHdr",
+		"cmd" : "curl -I -L -k #url# -s -m 10"
+	},
+	{
+		"name" : "urCmd",
+		"cmd" : "CmdContent #url#"
+	},
+	{
+		"name" : "dig",
+		"cmd" : "dig +short #url#"
+	}
+]

@@ -1,0 +1,572 @@
+<!--
+ * @public/index.html: Frontend logic and UI written in html/CSS, Javascript, jQuery, Backbone.js
+ * @author Dileep Basam 
+ * @version 0.1
+ -->
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>eSia - ProdSec</title>
+  <link rel="stylesheet" type="text/css" href="css/main.css">
+</head>
+
+  <body>
+  <div class="row">
+    <div class="side-menu">
+    <nav class="navbar navbar-default" role="navigation">
+      
+      <div class="navbar-header">
+        <div class="form-group">
+        <span class="glyphicon glyphicon-refresh" style="font-size: 1.0em;margin-top: 15px; margin-left: 95px;"></span>      
+      </div>
+    </div>
+    
+    <div class="navbar-header">
+        <div class="form-group">
+        <span class="glyphicon glyphicon-wrench" style="font-size: 1.3em;margin-top: 10px; margin-left: 95px;"></span>      
+      </div>
+    </div> 
+    
+    <div class="navbar-header">
+        <div class="form-group">
+          <h4>Search eSia Inventory:&nbsp;&nbsp;<button title="Search database for eBay sites with a keyword i.e. a word from URL or platform fingerprint e.g. Wordpress, deals, qa, ebayc3 etc." type="submit"  class="btn btn-small" style="display:inline; background-color: #f2f2f2">
+          <span class="glyphicon glyphicon-question-sign"></span>
+        </button></h4>
+          <input type="text" name="kwd" id="kwd" placeholder="Keyword to search e.g. ebay" list="keywords"/>
+          <datalist id="keywords">
+            <option value="Wordpress">
+            <option value="PHP">
+            <option value="IIS">
+            <option value="ebayc3">
+            <option value="ebaystratus">
+            <option value="pics">
+            <option value="deals">
+          </datalist>
+        </div>
+        <button type="submit" id="searchButton" class="btn btn-default">
+          <span class="glyphicon glyphicon-search"></span>
+        </button>
+    </div>
+    
+    <div class="navbar-header">
+        <div class="form-group">
+          <h4>Hit URL path and Find:&nbsp;&nbsp;<button title="Hit all matching URLs from Search-Inventory results on a specific path e.g. hit the URL path 'admin' and look for the word 'password' in body of result html page. Refer to dropdowns for more examples" type="submit" class="btn btn-small" style="display:inline; background-color: #f2f2f2">
+          <span class="glyphicon glyphicon-question-sign"></span>
+        </button></h4>
+          <input type="text" name="path" id="path" placeholder="Enter path" list="paths"/>
+        <datalist id="paths">
+          <option value="xmlrpc.php">
+          <option value="crossdomain.xml">
+          <option value="wp-admin">
+          <option value="wp-includes">
+          <option value="admin">
+          <option value="powership/admin">  
+      </datalist> 
+      <input type="text" name="pattern" id="pattern" placeholder="Pattern to look for" list="patterns"/>
+      <datalist id="patterns">
+        <option value='allow-access-from domain="*"'>
+        <option value="password">
+        <option value="XML-RPC server accepts POST requests">
+        <option value="Index">
+        <option value="x-frame-options">
+        <option value="x-pingback">
+        <option value="cache-control">
+      </datalist> 
+      </div>
+      <button type="submit" id="hitUrlsButton" class="btn btn-default">
+          <span class="glyphicon glyphicon-chevron-right"></span>
+      </button>
+    </div>
+    
+    <div class="navbar-header">
+      <div class="form-group">
+        <h4>Run a script and Find:&nbsp;&nbsp;<button title="Select URLs that you want to run a command or script with the help of checkboxes and click >" type="submit"  class="btn btn-small" style="display:inline; background-color: #f2f2f2">
+          <span class="glyphicon glyphicon-question-sign"></span>
+        </button>
+        </h4>
+        <select id="dpdown" class="disabled">
+        <span><option value="wpscan">wpscan</option></span>
+        </select>
+        <input type="text" name="runPattern" id="runPattern" placeholder="Pattern to look for" list="cmdPatterns" class="disabled"/>
+        <datalist id="cmdPatterns">
+          <option value='admin'>
+          <option value="Login">
+          <option value="CONNECTED">
+          <option value="RC4">
+        </datalist> 
+      <div id="http_s_1" class="disabled"><input type="checkbox" id="http_s" name="http_s" value="http_s_1" checked>Include http/s prefix
+      </div>
+      </div>
+      <button type="submit" id="runButton" class="btn btn-default disabled">
+       <span class="glyphicon glyphicon-chevron-right"></span>
+      </button>
+    </div>
+
+    <div class="navbar-header">
+      <div class="form-group">
+      <h4>Upload a script to db:&nbsp;&nbsp;<button title="Upload your Script to the database with its title and content in the format of '<runThisCommandOn> #url#' e.g. curl -I -L #url# " type="submit" class="btn btn-small" style="display:inline; background-color: #f2f2f2">
+          <span class="glyphicon glyphicon-question-sign"></span>
+        </button>
+      </h4>
+        <input type="text" name="scriptName" id="scriptName" placeholder="Script Name"/>
+        <input type="text" name="scriptText" id="scriptText" placeholder="Script Content with #url# as placeholder"/>
+      </div>
+      <button type="submit" id="scriptButton" class="btn btn-default">
+        <span class="glyphicon glyphicon-upload" style="font-size: 1.3em;"></span>
+      </button>
+    </div>
+
+    <div class="navbar-header">
+      <div class="form-group">
+         <h4>View all Scripts in db:</h4><button type="submit" id="viewScriptsButton" class="btn btn-default">
+          <span class="glyphicon glyphicon-eye-open" style="font-size: 1.3em;"></span>
+        </button>
+      </div>
+    </div>
+
+    <div class="navbar-header">
+      <div class="form-group">
+        <h4>RunDiscovery</h4>
+         <button type="submit" id="runDiscovery" class="btn btn-default">
+          <span class="glyphicon glyphicon glyphicon-scissors" style="font-size: 1.3em;"></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+ </div>   
+ 
+<div class="container-main">
+<div class="side-body">
+  <div id="mainPage">
+  <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+         <div id="navbar" class="navbar-collapse collapse">
+         <ul class="nav navbar-nav navbar-right">
+            <li><div class="navbar-header"><a class="navbar-brand" href="/"><span class="esia"style="color:#cc0000">e</span><span class="esia" style="color:#0000cc">S</span><span class="esia" style="color:#ffcc00">i</span><span class="esia" style="color:#ccdd00">a</span></a>
+        </div></li>
+            <li><a href="/">Home</a></li>
+            <li><a href="/video/help.mp4" title="Click to watch How-To-Use Video... Please hover on |?| buttons on each section for section-wise help!">Help</a></li>
+            <li><a title="To send your suggestions to ProdSec team over email" href="mailto:DL-eBay-ProdSecInternal@ebay.com?Subject=%20Regarding%20eSia%20Tool">Contact us</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav></br></br>
+
+    <div id="demo"></div></br></br>
+  <div id="uploadManual">
+      <h4>Upload a new URL to db:&nbsp;&nbsp;<button title="Add a row in db manually with ip, url, stack information" type="submit" class="btn btn-small" style="display:inline; background-color: #f2f2f2">
+          <span class="glyphicon glyphicon-question-sign"></span>
+        </button>
+      </h4>
+        <input type="text" name="ip" id="ip" placeholder="Enter IP address"/>
+        <input type="text" name="url" id="url" placeholder="Enter URL"/>
+        <input type="text" name="stack" id="stack" placeholder="Enter Stack information"/>
+      
+      <button type="submit" id="addARowButton" class="btn btn-default">
+        <span class="glyphicon glyphicon-upload" style="font-size: 1.3em;"></span>
+      </button>
+      </div>
+  <div class='paginationButtons'>
+      <input type="button" value="Next >>" id="nextButton" class="disabled"/>
+      <input type="button" value="<< Prev" id="prevButton" class="disabled"/>
+    </div>
+  <table class="table table-striped table-bordered table-condensed" id="allDocs" border="1">
+    <thead>
+     <tr><td>URL</td><td>IP_Address</td><td>PlatformDetail_eBay</td><td>StackFingerprint_eBay</td><td>PlatformDetail_fingerprint</td></tr>
+       <!--<tr><td> URL </td><td>IP-Address</td><td>PlatformDetail_Hdr</td><td>PlatformDetail_Nmap</td><td>Stack</td><td>Service</td><td>Last_Pentest_Date</td><td>isk_Level</td><td>Site_Contact_Email</td><td>Coverage_Whitehat</td><td>Coverage_Fortify</td><td>overage_Cenzic </td><td>Site_Status</td><td>description</td>--> 
+    </thead>
+  </table>
+</div>
+</div>
+</div>
+<div id="loading"></div>
+
+<!-- ========= -->
+<!-- Libraries -->
+<!-- ========= -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js" type="text/javascript"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js" type="text/javascript"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.2.1/backbone-min.js" type="text/javascript"></script>
+<script src="js/models/models.js"></script>
+<script src="js/views/views.js"></script>
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<!-- ======================== -->
+<!-- Javascript & jQuery code -->
+<!-- ======================== -->
+  <script type="text/javascript">
+  var pageSize=10;
+  var currIndex=0;
+  var val;
+  var path;
+  var pattern;
+
+  //Initial Fetch to populate the Wordcloud and Full-inventory-Table for landing page 
+   docsCollection.url = "api/docs" ;
+   docsCollection.fetch({success:function(){
+          docsView.render();
+          $('#allDocs').append(docsView.el);
+          var urlWordsArr=[];
+          var urlWords = [];
+          var platformWordsArr =[];
+          var platformWords = [];
+          var stackWordsArr = []; 
+          var stackWords = [];
+          var count = 0;
+          // Logic for generating WordCloud from the populated #allDocs table on mainPage by grabbing unique 100 (34+33+33) words
+            $('tr').slice(0, 1000).each(function () {
+                  if((urlWordsArr.indexOf($(this).closest('tr').find('td:eq(0)').text()) == -1) && ($(this).closest('tr').find('td:eq(0)').text() != '')){
+                    urlWordsArr.push($(this).closest('tr').find('td:eq(0)').text());
+                    urlWords.push({'text' : $(this).closest('tr').find('td:eq(0)').text(), 'weight': Math.floor(Math.random() * 7) + 1});
+                  }
+                  if((platformWordsArr.indexOf($(this).closest('tr').find('td:eq(3)').text()) == -1) && ($(this).closest('tr').find('td:eq(3)').text() != '')){
+                    platformWordsArr.push($(this).closest('tr').find('td:eq(3)').text());
+                    platformWords.push({'text' : $(this).closest('tr').find('td:eq(3)').text(), 'weight': Math.floor(Math.random() * 5) + 1 });
+                  }
+                  if((stackWordsArr.indexOf($(this).closest('tr').find('td:eq(2)').text()) == -1) && ($(this).closest('tr').find('td:eq(2)').text() != '')){
+                    stackWordsArr.push($(this).closest('tr').find('td:eq(2)').text());
+                    stackWords.push({'text' : $(this).closest('tr').find('td:eq(2)').text(), 'weight': Math.floor(Math.random() * 5) + 1 });
+                    }
+            });
+            //populating the #demo div element with jQCloud generated WordCloud from unique 100 words 
+            $('#demo').jQCloud(urlWords.slice(1,34).concat(platformWords.slice(1,33)).concat(stackWords.slice(1,33)), {
+                shape: 'elliptic'
+              });
+          
+
+    }
+  });
+
+//code for handling DOM events on buttons
+//Create GET request for dipslaying table of entries matching keyword on searchButton click
+$('#searchButton').off().on('click', function() {
+      val = document.getElementById('kwd').value;
+      val = val.replace(/\//g,'slashz');
+      //setting the Collection URL with the user supplied keyword 'val'
+      docsCollection.url = "api/docs/"+val;
+      //requesting a  backbone fetch operation on the Collection 
+      docsCollection.fetch({
+        success:function(){
+            docsView.render();
+            if(!document.getElementById("allDocs")){
+                cleanupUI();
+                $('<table/>', {
+                    'id':'allDocs',
+                    'class': "table table-striped table-bordered table-condensed",
+                     attr : {border : "1"}
+                }).appendTo('#mainPage');
+                $('#allDocs').append('<thead><tr><td>URL</td><td>IP_Address</td><td>PlatformDetail_eBay</td><td>StackFingerprint_eBay</td><td>PlatformDetail_fingerprint</td></tr></thead>');
+            }
+            $('#demo').remove();
+            $('#allDocs').append(docsView.el);
+    }
+    });
+      return false;
+  });
+
+//hitting a particular path against set URLs on hitUrlsButton click
+$('#hitUrlsButton').off().on('click', function() {
+      pageSize=10;
+      currIndex=0;
+      showLoadScreen();
+      populateValues();
+      //encode & in path
+      path = path.replace(/&/g,'amperznd');
+      //setting the Collection URL with the user supplied keyword 'val' and pattern-to-lookFor 'pattern' and initial Pagination index and page-size 
+      urlsCollection.url = "api/docs/"+val+'/urls_exec?path='+path+'&look_for='+pattern+'&current_index='+currIndex+'&page_size='+pageSize;
+      //requesting a  backbone fetch operation on the Collection 
+      urlsCollection.fetch({
+        success:function(){
+          cleanNAddUrlTableUI();
+          hideLoadScreen();
+          activateRunPagination();
+          //logic for updating and displaying scriptNames dropdown 
+          scriptsCollection.url = "api/get_all_cmds";
+          scriptsCollection.fetch({
+              success:function(){
+              scriptNamesView.render();
+              }, 
+              error: function(){ 
+                    hideLoadScreen();
+                    console.log('ERROR during FETCH !!');
+              }, timeout : 0});
+          //logic for highlighting matching rows
+          highlightRows();
+        }, 
+        error: function(){ 
+            console.log('ERROR during FETCH !!');
+        }, timeout : 0});
+      return false;
+  });
+//code for DOM events on next button for paginated results display 
+$('#nextButton').off().on('click', function() {
+      populateValues();
+      currIndex= parseInt(currIndex)+parseInt(pageSize);
+      //update the collection URL with user supplied path to append against each URL with pagination index for NEXT page and Page Size
+      urlsCollection.url = "api/docs/"+val+'/urls_exec?path='+path+'&look_for='+pattern+'&current_index='+currIndex+'&page_size='+pageSize;
+      showLoadScreen();
+      //requesting backbone fetch operation on populated Collection URL 
+      urlsCollection.fetch({
+        success:function(){
+          cleanNAddUrlTableUI();
+          hideLoadScreen();
+          $('#prevButton').removeClass('disabled');
+          //logic for color-coding rows containing user supplied lookFor pattern 
+          highlightRows();
+        },
+        error: function(){ 
+            console.log('ERROR during FETCH !!');
+            currIndex= parseInt(currIndex)-parseInt(pageSize);
+            hideLoadScreen();
+            $('#nextButton').addClass('disabled');
+        }, timeout : 0});
+     return false;
+  });
+//code for DOM events on prev button for paginated results display 
+$('#prevButton').off().on('click', function() {
+      populateValues();
+      currIndex= parseInt(currIndex)-parseInt(pageSize); 
+      //update the collection URL with user supplied path to append against each URL with pagination index for PREVIOUS page and Page Size 
+      urlsCollection.url = "api/docs/"+val+'/urls_exec?path='+path+'&look_for='+pattern+'&current_index='+currIndex+'&page_size='+pageSize;
+      showLoadScreen();
+      //requesting backbone fetch operation on populated Collection URL 
+      urlsCollection.fetch({
+        success:function(){
+          cleanNAddUrlTableUI();
+          hideLoadScreen();
+          $('#nextButton').removeClass('disabled');
+          //logic for color-coding rows containing user supplied lookFor pattern 
+          highlightRows();
+          }, 
+          error: function(){ 
+              console.log('ERROR during FETCH !!');
+              currIndex= parseInt(currIndex)+parseInt(pageSize);
+              hideLoadScreen();
+              $('#prevButton').addClass('disabled');
+          }, timeout : 0});
+   return false;
+  });
+
+$('#runButton').off().on('click', function() {
+      var indexList = "";
+      var indexListArr = [];
+      var httpPrefixEnable;
+      //populating an Array for retrieving URL IDs for selected Checkboxes 
+      $('input[type=checkbox]').each(function(){
+          if(this.checked){
+              if((indexListArr.indexOf($(this).closest('tr').find('td:eq(4)').text()) == -1) && ($(this).closest('tr').find('td:eq(4)').text() != '')){
+                      indexListArr.push($(this).closest('tr').find('td:eq(4)').text());
+              }
+          }
+      });
+      //setting httpPrefixEnable flag based on the user selection of includeHttp/s #http_s checkbox
+      if($('#http_s').is(":checked")){
+        httpPrefixEnable = 1;
+      }else{
+        httpPrefixEnable = 0;
+      }
+      indexList = indexListArr.join('-');
+      var eId = document.getElementById("dpdown");
+      var  eValue = eId.options[eId.selectedIndex].text;
+      var runPatt = document.getElementById('runPattern').value;
+      if(jQuery.trim(runPatt).length == 0){
+        runPatt = '.*';          
+      }
+      urlsCollection.url = "api/docs/"+val+'/exec/'+eValue+'/'+runPatt+'/'+httpPrefixEnable+'?index_list='+indexList;
+      //Check if user selected atleast one URL and proceed with the GET request for unixCommand exeuction for the user-supplied commandName 
+      if(indexList.length != 0){
+        showLoadScreen();
+        urlsCollection.fetch({
+        success:function(){
+          cleanNAddUrlTableUI();
+          hideLoadScreen();
+          //logic for highlighting matching rows
+          $('tr').each(function () {
+            if($(this).closest('tr').find('td:eq(1)').text() === runPatt ){
+              $(this).closest('tr').css('background-color','#FFFFE0');
+            }
+          });
+          }, 
+          error: function(){ 
+            hideLoadScreen();
+            console.log('ERROR during FETCH !!');
+          }, timeout : 0});
+    }else{
+      alert('Please select atleast one URL using checkboxes to run '+ eValue + ' on !!');
+    }
+   return false;
+  });
+
+  
+//jQuery for scriptbutton i.e. for uploading a script to the database operation using backbone save() operation 
+$('#scriptButton').off().on('click', function() {
+      var sName = $('#scriptName').val().trim();
+      var sText = $('#scriptText').val();
+      var newScript = new scriptInsert({
+          name: sName,
+          cmd: sText,
+      });
+      //check if user supplied valid scriptName and scriptContent and perform a backbone save() operation to make a request to backend for script upload to MongoDB
+      if (sName != '' && sText !=''){
+        newScript.save({}, {
+        success: function(model, response) {
+            alert('Script has been uploaded to eSia database!');
+            $('#scriptName').val("");
+            $('#scriptText').val("");
+            document.getElementById('scriptText').value = '';
+            scriptsCollection.url = "api/get_all_cmds";
+            scriptsCollection.fetch({
+            success:function(){
+              scriptNamesView.render();
+            }, 
+            error: function(){ 
+              console.log('ERROR during FETCH !!');
+            }, timeout : 0});
+        },
+        error: function(model, response) {
+            console.log('Failure in upload');
+            console.log(response);
+        }
+        });
+      }else{
+        alert('Please enter valid name and command');
+      }
+      return false;
+  });
+
+//jQuery to handle viewScriptsButton click for UI population and making a GET request on route 'api/get_all_cmds'
+$('#viewScriptsButton').off().on('click', function() {
+      scriptsCollection.url = "api/get_all_cmds";
+      scriptsCollection.fetch({
+        success:function(){
+          scriptsFullView.render();
+          $('#allDocs').remove();
+          cleanupUI();
+          $('<table/>', {
+             'id':'scriptsTable',
+              'class': "table table-striped table-bordered table-condensed",
+              attr : {border : "1"}
+          }).appendTo('#mainPage');
+          $('#scriptsTable').append('<thead><tr class="resultsRow"><td>Script Title</td><td>Script content</td></tr></thead>');
+          $('#scriptsTable').append(scriptsFullView.el);  
+        }, 
+        error: function(){ 
+          console.log('ERROR during FETCH !!');
+        }, timeout : 0});      
+    return false;
+  });
+//createCollection 
+//uploading a row manually to the database
+$('#addARowButton').off().on('click', function() {
+      var ip = $('#ip').val().trim();
+      var url = $('#url').val();
+      var stack = $('#stack').val();
+      var newURL = new URLInsert({
+          ip: ip,
+          url: url,
+          stack: stack
+      });
+      //check if user supplied valid scriptName and scriptContent and perform a backbone save() operation to make a request to backend for script upload to MongoDB
+      if (stack!= '' && url !=''){
+        newURL.save({}, {
+        success: function(model, response) {
+            alert('URL has been uploaded to eSia database!');
+            $('#ip').val("");
+            $('#url').val("");
+            $('#stack').val("");
+        },
+        error: function(model, response) {
+            console.log('Failure in upload');
+            console.log(response);
+        }
+        });
+      }else{
+        alert('Please enter valid ip, URL and stack');
+      }
+      return false;
+  });
+// 
+$('#runDiscovery').off().on('click', function() {
+  $.get( "api/run_discovery");
+  alert('The discovery process has been kicked off on server-side!');
+  window.stop();
+});
+// Reusable functions for cleaning up and updating UI based on DOM events 
+// functions for showing loading screen and mainPage elements alternatively 
+var showLoadScreen = function(){
+  $('mainPage').hide();
+  $('#loading').show();
+}
+var hideLoadScreen = function(){
+  $('mainPage').show();
+  $('#loading').hide();
+}
+//UI clean up for the Search results page 
+var cleanupUI = function(){
+      $('#scriptsTable').remove();
+      $('#urlTable').remove();
+      $('#dpdown').addClass('disabled');
+      $('#prevButton').addClass('disabled');
+      $('#nextButton').addClass('disabled');
+      $('#runButton').addClass('disabled');
+      $('#runPattern').addClass('disabled');
+      $('#demo').remove();
+      $('#http_s_1').addClass('disabled');
+}
+// UI clean up and Populating UI for hitURLResults and unixCommand Results 
+var cleanNAddUrlTableUI = function(){
+          var clickedIndex;
+          $('#scriptsTable').remove();
+          $('#allDocs').remove();
+          $('#urlTable').remove();
+          $('#demo').remove();
+          $('<table/>', {
+              'id':'urlTable',
+              'class': "table table-striped table-bordered table-condensed",
+              attr : {border : "1"}
+          }).appendTo('#mainPage');
+          $('#urlTable').append('<thead><tr class="resultsRow"><td>URL</td><td>Matched Text</td><td>Preview</td><td>Choose_URL</td><td>ID</td></tr></thead>');
+          urlsView.render();
+          $('#urlTable').append(urlsView.el);
+    return false;
+}
+// Populating UI for Pagination 
+var activateRunPagination= function(){
+      $('#nextButton').removeClass('disabled');
+      $('#prevButton').removeClass('disabled');
+      $('#dpdown').removeClass('disabled');
+      $('#runButton').removeClass('disabled');
+      $('#runPattern').removeClass('disabled');
+      $('#http_s_1').removeClass('disabled');
+      $('#demo').remove();
+}
+//function to glean query parameters from text fields 
+var populateValues= function(){
+      val = document.getElementById('kwd').value;
+      path = document.getElementById('path').value;
+      pattern = document.getElementById('pattern').value;
+      if(jQuery.trim(val).length == 0){
+        val = 'ebay';          
+      }
+    return false;
+  }
+//Color-coding of rows for result rows matching the regex pattern 
+var highlightRows = function(){
+  $('tr').each(function () {
+              if($(this).closest('tr').find('td:eq(1)').text().indexOf(pattern) != -1 ){
+                $(this).closest('tr').css('background-color','#FFFFE0');
+            }
+          });
+}
+</script>
+
+<!-- More Libraries jQCloud for WordCloud-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqcloud/1.0.4/jqcloud-1.0.4.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqcloud/1.0.4/jqcloud.css">
+
+</body>
+</html>
+
+

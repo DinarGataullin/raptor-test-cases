@@ -1,0 +1,296 @@
+ <style>
+  /*========= -->
+  <!-- CSS -->
+  <!-- ========= */
+  #mainPage{
+    display: block;
+  }
+   .esia{
+    font-family: "ostrich";
+    font-size: 1.8em;
+    font-weight: normal;
+    text-shadow: 0 2px lightblue, 0 3px #777;
+    display: inline;
+    float: left;
+    
+  }
+
+  #searchButton, #hitUrlsButton, #nextButton, #prevButton, #runButton,#scriptButton, #viewScriptsButton,#runDiscovery{
+    width: 100px;
+    height: 30px;
+  }
+  #runDiscovery{
+    margin-left: 50px;
+    margin-top: 10px;
+  }
+  
+   #kwd, #path, #pattern,#runPattern,#scriptName, #scriptText{
+    height: 30px;
+    width: 100px;
+    border-color: #898989;
+    margin-top: 10px;
+  }
+  #kwd{
+    width: 204px;
+  }
+  td{
+    height: 50px; 
+    width: 100px;
+    word-wrap: break-word;
+    text-align:center; 
+    vertical-align:middle;
+  }
+  .paginationButtons input{
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    float: right;
+    margin-top: 30px;
+   
+ }
+ .unixCommands{
+    display: inline-block;
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-bottom: 10px;
+    float: left;
+ }
+ #dpdown{
+  height: 30px;
+  width: 100px;
+
+ }
+  .disabled {
+    opacity:.1;
+  }
+  #loading{
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    width: 100vw;
+    height: 800vh;
+    /*background-color: rgba(192, 192, 192, 0.5);*/
+    background-color: rgba(192, 192, 192,0.5);
+    /*background-image: url("http://i.stack.imgur.com/MnyxU.gif");*/
+    background-image: url("http://i.imgur.com/pKopwXp.gif");
+    /*background-image: url("http://i.stack.imgur.com/FhHRx.gif");*/
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    filter: invert(100%);
+    -webkit-filter: invert(100%);
+
+}
+
+:focus {
+  outline: none;
+}
+.row {
+  margin-right: 0;
+  margin-left: 0;
+}
+
+.side-menu {
+  position: fixed;
+  width: 300px;
+  height: 100%;
+  background-color: #f8f8f8;
+  border-right: 1px solid #e7e7e7;
+}
+.side-menu .navbar {
+  border: none;
+}
+.side-menu .navbar-header {
+  width: 100%;
+  border-bottom: 1px solid #e7e7e7;
+}
+.side-menu .navbar-nav .active a {
+  background-color: transparent;
+  margin-right: -1px;
+  border-right: 5px solid #e7e7e7;
+}
+.side-menu .navbar-nav li {
+  display: block;
+  width: 100%;
+  border-bottom: 1px solid #e7e7e7;
+}
+.side-menu .navbar-nav li a {
+  padding: 15px;
+}
+.side-menu .navbar-nav li a .glyphicon {
+  padding-right: 10px;
+}
+.side-menu #dropdown {
+  border: 0;
+  margin-bottom: 0;
+  border-radius: 0;
+  background-color: transparent;
+  box-shadow: none;
+}
+.side-menu #dropdown .caret {
+  float: right;
+  margin: 9px 5px 0;
+}
+.side-menu #dropdown .indicator {
+  float: right;
+}
+.side-menu #dropdown > a {
+  border-bottom: 1px solid #e7e7e7;
+}
+.side-menu #dropdown .panel-body {
+  padding: 0;
+  background-color: #f3f3f3;
+}
+.side-menu #dropdown .panel-body .navbar-nav {
+  width: 100%;
+}
+.side-menu #dropdown .panel-body .navbar-nav li {
+  padding-left: 15px;
+  border-bottom: 1px solid #e7e7e7;
+}
+.side-menu #dropdown .panel-body .navbar-nav li:last-child {
+  border-bottom: none;
+}
+.side-menu #dropdown .panel-body .panel > a {
+  margin-left: -20px;
+  padding-left: 35px;
+}
+.side-menu #dropdown .panel-body .panel-body {
+  margin-left: -15px;
+}
+.side-menu #dropdown .panel-body .panel-body li {
+  padding-left: 30px;
+}
+.side-menu #dropdown .panel-body .panel-body li:last-child {
+  border-bottom: 1px solid #e7e7e7;
+}
+.side-menu #search-trigger {
+  background-color: #f3f3f3;
+  border: 0;
+  border-radius: 0;
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 15px 18px;
+}
+.side-menu .brand-name-wrapper {
+  min-height: 50px;
+}
+.side-menu .brand-name-wrapper .navbar-brand {
+  display: block;
+}
+.side-menu #search {
+  position: relative;
+  z-index: 1000;
+}
+.side-menu #search .panel-body {
+  padding: 0;
+}
+.side-menu #search .panel-body .navbar-form {
+  padding: 0;
+  padding-right: 50px;
+  width: 100%;
+  margin: 0;
+  position: relative;
+  border-top: 1px solid #e7e7e7;
+}
+.side-menu #search .panel-body .navbar-form .form-group {
+  width: 100%;
+  position: relative;
+}
+.side-menu #search .panel-body .navbar-form input {
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  width: 100%;
+  height: 50px;
+}
+.side-menu #search .panel-body .navbar-form .btn {
+  position: absolute;
+  right: 0;
+  top: 0;
+  border: 0;
+  border-radius: 0;
+  background-color: #f3f3f3;
+  padding: 15px 18px;
+}
+
+.side-body {
+  margin-left: 310px;
+}
+
+@media (max-width: 768px) {
+  .side-menu {
+    position: relative;
+    width: 100%;
+    height: 0;
+    border-right: 0;
+    border-bottom: 1px solid #e7e7e7;
+  }
+  .side-menu .brand-name-wrapper .navbar-brand {
+    display: inline-block;
+  }
+  
+  .panel-body .navbar-form {
+    border-bottom: 0;
+  }
+  .panel-body .navbar-form .form-group {
+    margin: 0;
+  }
+  .navbar-header {
+
+    position: fixed;
+    z-index: 3;
+    background-color: #f8f8f8;
+  }
+
+  #dropdown .panel-body .navbar-nav {
+    margin: 0;
+  }
+}
+.form-group{
+  margin-left: 50px;
+}
+
+#searchButton, #hitUrlsButton,#scriptButton,#runButton{
+  margin-left: 100px;
+  margin-bottom: 5px;
+}
+#viewScriptsButton{
+  margin-top: 5px;
+  margin-left: 50px;
+}
+thead{ 
+  background-color: #f2f2f2;
+}
+#dpdown{
+  margin-left: -10px;
+}
+#searchButton, #hitUrlsButton, #runButton,#scriptButton, #viewScriptsButton, #runDiscovery{
+  background-color: #f2f2f2;
+}
+#howToUse{
+  margin-right: 35px;
+  text-align: justify;
+}
+#home:hover, #home:active{
+  text-decoration: none;
+}
+#http_s_1{
+  margin-top: 5px;
+  margin-left: 40px;
+}
+#demo{
+  width: 800px;
+  height: 350px;
+  margin-top: 50px;
+ margin-left: auto;
+ margin-right: auto;
+}
+#uploadManual{
+  margin-left: 300px;
+}
+
+</style>
